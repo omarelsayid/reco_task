@@ -9,6 +9,7 @@ import 'package:reco_task/core/utils/theming.dart';
 import 'package:reco_task/features/auth/presentation/views/register_view.dart';
 import 'package:reco_task/features/menu/presentation/views/menu_view.dart';
 import 'package:reco_task/firebase_options.dart';
+import 'package:reco_task/home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,9 +32,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: themeData(),
       onGenerateRoute: RoutesGenerator.onGenerateRoute,
-      home: FirebaseAuth.instance.currentUser != null
-          ? const MenuView()
-          : const RegisterView(),
+      
+      home: Home(),
+      // home: FirebaseAuth.instance.currentUser != null
+      //     ? const MenuView()
+      //     : const RegisterView(),
     );
   }
 }
