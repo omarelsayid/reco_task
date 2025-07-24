@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "851355797577",
+    "project_id": "reco-task-2db2f",
+    "storage_bucket": "reco-task-2db2f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851355797577:android:df2c02c42bada98dcb5798",
+        "android_client_info": {
+          "package_name": "com.example.reco_task"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqnjuF5aeCGhFYjqPWHg0Rz6k6v8Xf9VI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
