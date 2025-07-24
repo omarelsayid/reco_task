@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:reco_task/core/services/custom_bloc_observer.dart';
 import 'package:reco_task/core/services/injectable_services.dart';
 import 'package:reco_task/core/utils/theming.dart';
 import 'package:reco_task/features/auth/presentation/views/register_view.dart';
+import 'package:reco_task/features/menu/presentation/views/menu_view.dart';
 import 'package:reco_task/firebase_options.dart';
 
 Future<void> main() async {
@@ -29,7 +31,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: themeData(),
       onGenerateRoute: RoutesGenerator.onGenerateRoute,
-      home: const RegisterView(),
+      home: FirebaseAuth.instance.currentUser != null
+          ? const MenuView()
+          : const RegisterView(),
     );
   }
 }

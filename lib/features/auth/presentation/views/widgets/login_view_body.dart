@@ -5,8 +5,6 @@ import 'package:reco_task/core/utils/extention.dart';
 import 'package:reco_task/core/utils/show_snack_bar.dart';
 import 'package:reco_task/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
 import 'package:reco_task/features/auth/presentation/cubits/login_cubit/login_states.dart';
-import 'package:reco_task/features/auth/presentation/cubits/register_cubit/register_cubit.dart';
-import 'package:reco_task/features/auth/presentation/cubits/register_cubit/register_states.dart';
 import 'package:reco_task/features/auth/presentation/views/widgets/custom_elevated_button.dart';
 import 'package:reco_task/features/auth/presentation/views/widgets/donot_have_an_account.dart';
 import 'package:reco_task/features/auth/presentation/views/widgets/field_lable.dart';
@@ -92,7 +90,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
 
             BlocListener<LoginCubit, LoginStates>(
               listener: (context, state) {
-                if (state is RegisterLoading) {
+                if (state is LoginLoading) {
                   isLoading = true;
                   setState(() {});
                 } else if (state is LoginSuccess) {
@@ -114,7 +112,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 title: 'Sign In',
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    await context.read<RegisterCubit>().login(
+                    await context.read<LoginCubit>().login(
                       _emailController.text,
                       _passwordController.text,
                     );
