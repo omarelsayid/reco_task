@@ -18,6 +18,7 @@ import '../../features/auth/presentation/cubits/login_cubit/login_cubit.dart'
     as _i314;
 import '../../features/auth/presentation/cubits/register_cubit/register_cubit.dart'
     as _i590;
+import '../../features/cart/presentation/cubit/cart_cubit.dart' as _i499;
 import 'firebase_auth_service.dart' as _i5;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -27,6 +28,7 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.factory<_i499.CartCubit>(() => _i499.CartCubit());
     gh.lazySingleton<_i5.FirebaseAuthService>(() => _i5.FirebaseAuthService());
     gh.factory<_i507.AuthRepo>(
       () => _i97.AuthRepoImp(gh<_i5.FirebaseAuthService>()),
