@@ -29,8 +29,7 @@ jobs:
         with:
           # IMPORTANT: Replace '3.x.x' with a valid Flutter version like '3.19.6' or 'stable'
           flutter-version: '3.19.6' # Example: Use a known stable version 
-          # Or, if you want the very latest stable:
-          # flutter-version: 'stable' 
+     
 
       - name: Install Dependencies
         run: flutter pub get
