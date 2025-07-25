@@ -36,6 +36,7 @@ jobs:
 
       - name: Build APK (Release)
         run: flutter build apk --release
+        
 
       - name: List APK Files
         run: ls build/app/outputs/flutter-apk
