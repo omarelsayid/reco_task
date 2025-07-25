@@ -4,16 +4,17 @@ on:
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
 
 jobs:
   build:
-    runs-on: macos-latest  # macOS for iOS build support
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout My Code
         uses: actions/checkout@v3
 
       - name: Setup Java 17
@@ -27,34 +28,31 @@ jobs:
         with:
           flutter-version: '3.32.2'
 
-      - name: Install CocoaPods
-        run: |
-          sudo gem install cocoapods
-          pod repo update
+      - name: Accept Android Licenses
+        run: yes | flutter doctor --android-licenses
 
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build iOS (Release)
-        run: |
-          flutter build ios --release --no-codesign
-
-      - name: Build Android APK (Release)
+      - name: Build APK
         run: flutter build apk --release
 
-      - name: Upload Android APK to Firebase App Distribution
+      - name: List APK Output
+        run: ls -l build/app/outputs/flutter-apk/
+
+      - name: Upload to Firebase App Distribution
+        id: firebase_upload
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: ${{ secrets.ANDROID_APP_ID }}
+          appId: ${{ secrets.APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           groups: testers
           file: build/app/outputs/flutter-apk/app-release.apk
-          releaseNotes: "Android APK upload 🚀"
+          releaseNotes: "Automated upload via GitHub Actions 🚀"
+          debug: true
 
-      # iOS distribution not supported via Firebase GitHub Action directly
-      # You can use Fastlane or Firebase CLI for iOS upload
-
-      - name: Archive iOS App (Optional)
+      - name: Display Firebase Upload Links
         run: |
-          cd build/ios/iphoneos
-          zip -r app-release.ipa Payload
+          echo "🔗 Firebase Console: ${{ steps.firebase_upload.outputs.FIREBASE_CONSOLE_URI }}"
+          echo "📲 Tester Download Link: ${{ steps.firebase_upload.outputs.TESTING_URI }}"
+          echo "⬇️ Direct Binary Download: ${{ steps.firebase_upload.outputs.BINARY_DOWNLOAD_URI }}"
