@@ -2,9 +2,13 @@ name: Flutter CI/CD
 
 on:
   push:
-    branches: [main, publish_to_firebase]
+    branches:
+      - main
+      - publish_to_firebase
   pull_request:
-    branches: [main, publish_to_firebase]
+    branches:
+      - main
+      - publish_to_firebase
 
 jobs:
   build:
@@ -20,32 +24,26 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Flutter 3.32.2
+      - name: Install Flutter 3.32.2
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.32.2'
 
-      - name: Accept Android Licenses
-        run: yes | flutter doctor --android-licenses
-
       - name: Install Dependencies
         run: flutter pub get
 
-      # Tests are skipped since no test directory exists
-      # - name: Run Tests
-      #   run: flutter test
+      # Removed the test step as requested
 
       - name: Build APK (Release)
         run: flutter build apk --release
 
-      - name: List APK Output
-        run: ls -l build/app/outputs/flutter-apk/
+      - name: List APK Files
+        run: ls build/app/outputs/flutter-apk
 
-      - name: Upload to Firebase App Distribution
+      - name: Upload APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           groups: testers
           file: build/app/outputs/flutter-apk/app-release.apk
-          debug: true  # Enables detailed logging
