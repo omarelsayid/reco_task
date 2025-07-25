@@ -23,7 +23,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Flutter Version 3.32.2
+      - name: Install Flutter 3.32.2
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.32.2'
@@ -38,12 +38,21 @@ jobs:
         run: flutter build apk --release
 
       - name: List APK Output
-        run: ls build/app/outputs/flutter-apk
+        run: ls -l build/app/outputs/flutter-apk/
 
-      - name: Upload artifact to Firebase App Distribution
+      - name: Upload to Firebase App Distribution
+        id: firebase_upload
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           groups: testers
           file: build/app/outputs/flutter-apk/app-release.apk
+          releaseNotes: "Automated upload via GitHub Actions 🚀"
+          debug: true
+
+      - name: Display Firebase Upload Links
+        run: |
+          echo "🔗 Firebase Console: ${{ steps.firebase_upload.outputs.FIREBASE_CONSOLE_URI }}"
+          echo "📲 Tester Download Link: ${{ steps.firebase_upload.outputs.TESTING_URI }}"
+          echo "⬇️ Direct Binary Download: ${{ steps.firebase_upload.outputs.BINARY_DOWNLOAD_URI }}"
