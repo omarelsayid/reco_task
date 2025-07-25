@@ -4,17 +4,16 @@ on:
   push:
     branches:
       - main
-
   pull_request:
     branches:
       - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest  # macOS for iOS build support
 
     steps:
-      - name: Checkout My Code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Setup Java 17
@@ -28,31 +27,34 @@ jobs:
         with:
           flutter-version: '3.32.2'
 
-      - name: Accept Android Licenses
-        run: yes | flutter doctor --android-licenses
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods
+          pod repo update
 
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build APK
+      - name: Build iOS (Release)
+        run: |
+          flutter build ios --release --no-codesign
+
+      - name: Build Android APK (Release)
         run: flutter build apk --release
 
-      - name: List APK Output
-        run: ls -l build/app/outputs/flutter-apk/
-
-      - name: Upload to Firebase App Distribution
-        id: firebase_upload
+      - name: Upload Android APK to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: ${{ secrets.APP_ID }}
+          appId: ${{ secrets.ANDROID_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           groups: testers
           file: build/app/outputs/flutter-apk/app-release.apk
-          releaseNotes: "Automated upload via GitHub Actions 🚀"
-          debug: true
+          releaseNotes: "Android APK upload 🚀"
 
-      - name: Display Firebase Upload Links
+      # iOS distribution not supported via Firebase GitHub Action directly
+      # You can use Fastlane or Firebase CLI for iOS upload
+
+      - name: Archive iOS App (Optional)
         run: |
-          echo "🔗 Firebase Console: ${{ steps.firebase_upload.outputs.FIREBASE_CONSOLE_URI }}"
-          echo "📲 Tester Download Link: ${{ steps.firebase_upload.outputs.TESTING_URI }}"
-          echo "⬇️ Direct Binary Download: ${{ steps.firebase_upload.outputs.BINARY_DOWNLOAD_URI }}"
+          cd build/ios/iphoneos
+          zip -r app-release.ipa Payload
