@@ -1,3 +1,7 @@
+
+
+https://github.com/user-attachments/assets/dcda99f3-e4c8-49b7-a4f5-75e1f9b9b7f7
+
 A scalable and maintainable Flutter application that showcases clean architecture using MVVM, the Repository Pattern, and robust state management. This app features a complete cart system and integrates Firebase services for data management and app distribution.
 
 ---
