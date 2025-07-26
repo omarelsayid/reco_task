@@ -1,16 +1,23 @@
-# reco_task
+A scalable and maintainable Flutter application that showcases clean architecture using MVVM, the Repository Pattern, and robust state management. This app features a complete cart system and integrates Firebase services for data management and app distribution.
 
-A new Flutter project.
+---
 
-## Getting Started
+## 🚀 Features
 
-This project is a starting point for a Flutter application.
+- **🗂️ Clean Architecture**
+  - Applied **MVVM (Model-View-ViewModel)** to separate business logic from UI.
+  - Used **Repository Pattern** to abstract data sources for better testability and scalability.
+  - Implemented **Dependency Injection (DI)** using `injectable` and `get_it`.
 
-A few resources to get you started if this is your first Flutter project:
+- **🛒 Cart System**
+  - Add, update, and remove items in the cart.
+  - Cart state is managed efficiently using **Bloc/Cubit**.
+  - Real-time UI updates and persistent cart data.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **🔥 Firebase Integration**
+  - Data (e.g., product images, details) is stored and retrieved via **Firebase Cloud Storage**.
+  - Fast and reliable media loading through Firebase-backed URLs.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **⚙️ Continuous Integration & Deployment**
+  - **GitHub Actions** for automated builds of APK files on every push.
+  - Seamless deployment via **Firebase App Distribution** to testers or QA teams.
